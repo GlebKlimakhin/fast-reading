@@ -8,6 +8,8 @@ import com.axioma.axiomatrainee.requestdto.CreateHomeworkRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -20,12 +22,20 @@ public class HomeworkService {
     @Autowired
     public void setIHomeworkRepository(IHomeworkRepository homeworkRepository, IExerciseRepository exerciseRepository) {
         this.homeworkRepository = homeworkRepository;
+        this.exerciseRepository = exerciseRepository;
     }
 
+    @Transactional
     public Homework createHomework(CreateHomeworkRequestDto createHomeworkRequestDto) {
         Homework homework = new Homework();
-        Set<Exercise> exercises = (Set<Exercise>) exerciseRepository.findAllByExerciseIds(createHomeworkRequestDto.getExercisesIds());
-        homework.setExercises(exercises);
+        Set<Exercise> requestedExercises = new HashSet<>();
+        exerciseRepository.findAllByExerciseIds(createHomeworkRequestDto.getExercisesIds())
+                .forEach(requestedExercises::add);
+        homework.setExercises(requestedExercises);
         return homeworkRepository.save(homework);
+    }
+
+    public Set<Homework> findAllByGroupId(Long groupId) {
+        return homeworkRepository.findHomeworkByGroupId(groupId);
     }
 }

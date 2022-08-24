@@ -5,10 +5,10 @@ import com.axioma.axiomatrainee.model.Homework;
 import com.axioma.axiomatrainee.requestdto.CreateHomeworkRequestDto;
 import com.axioma.axiomatrainee.service.HomeworkService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/homeworks")
@@ -21,8 +21,14 @@ public class HomeworkController {
         this.homeworkService = homeworkService;
     }
 
-    @PostMapping("/")
+    @PostMapping
+    @PreAuthorize("hasAuthority('teacher')")
     public Homework create(@RequestBody CreateHomeworkRequestDto request) {
         return homeworkService.createHomework(request);
+    }
+
+    @GetMapping("/groupId={groupId}")
+    public Set<Homework> findHomeWorksByGroupId(@PathVariable Long groupId) {
+        return homeworkService.findAllByGroupId(groupId);
     }
 }

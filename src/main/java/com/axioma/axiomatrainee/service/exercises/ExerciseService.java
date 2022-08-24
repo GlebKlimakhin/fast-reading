@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ExerciseService implements AbstractExerciseService{
@@ -39,7 +40,7 @@ public class ExerciseService implements AbstractExerciseService{
         return exerciseRepository.save(exercise);
     }
 
-    public List<Exercise> findAllByType(ExerciseType exerciseType) {
+    public Set<Exercise> findAllByType(ExerciseType exerciseType) {
         return exerciseRepository.findAllByExerciseTypeEquals(exerciseType);
     }
 }

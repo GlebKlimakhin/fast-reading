@@ -27,7 +27,7 @@ public class Group {
     String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "groups_homewors",
+    @JoinTable(name = "groups_homeworks",
     joinColumns = @JoinColumn(name = "group_id"),
     inverseJoinColumns = @JoinColumn(name = "homework_id"))
     Set<Homework> homeworks;

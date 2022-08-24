@@ -2,11 +2,13 @@ package com.axioma.axiomatrainee.model.exercises;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Table(name = "done_exercises")
@@ -29,5 +31,10 @@ public class DoneExercise {
     @Column(name = "type")
     @NotBlank
     ExerciseType exerciseType;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "done_at")
+    Date doneAt;
 
 }

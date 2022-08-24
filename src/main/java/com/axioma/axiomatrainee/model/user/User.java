@@ -1,9 +1,13 @@
 package com.axioma.axiomatrainee.model.user;
 
 import com.axioma.axiomatrainee.model.Group;
+import com.axioma.axiomatrainee.utill.ValidEmail;
+import com.axioma.axiomatrainee.utill.ValidPassword;
+import com.axioma.axiomatrainee.utill.ValidUsername;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -24,13 +28,11 @@ public class User {
     Long id;
 
     @Column(name = "username")
-    @Size(min = 3, max = 12, message = "username cannot be less than 3, and more than 12 characters")
-    @NotBlank
+    @ValidUsername
     String username;
 
     @Column(name = "password")
-    @Size(min = 3, max = 12, message = "password cannot be less than 3, and more than 12 characters")
-    @NotBlank
+    @ValidPassword
     @JsonIgnore
     String password;
 
@@ -50,9 +52,7 @@ public class User {
     Status status;
 
     @Column(name = "email")
-    @Email(regexp = ".+@.+\\..+")
-    @Size(min = 3, max = 30, message = "email cannot be less than 3, and more than 30 characters")
-    @NotBlank
+    @ValidEmail
     String email;
 
     @ManyToMany(fetch = FetchType.LAZY)

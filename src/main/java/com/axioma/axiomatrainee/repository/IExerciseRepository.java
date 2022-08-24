@@ -12,7 +12,7 @@ import java.util.Set;
 
 public interface IExerciseRepository extends JpaRepository<Exercise, Long> {
 
-    List<Exercise> findAllByExerciseTypeEquals(ExerciseType exerciseType);
+    Set<Exercise> findAllByExerciseTypeEquals(ExerciseType exerciseType);
 
     Optional<Exercise> findByIdAndExerciseTypeEquals(Long id, ExerciseType exerciseType);
 

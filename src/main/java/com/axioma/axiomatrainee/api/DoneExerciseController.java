@@ -32,7 +32,7 @@ public class DoneExerciseController {
         return doneExerciseService.findAllByUserId(userId);
     }
 
-    @PostMapping("/")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public DoneExercise save(@RequestBody DoneExercise doneExercise) {
         return doneExerciseService.save(doneExercise);

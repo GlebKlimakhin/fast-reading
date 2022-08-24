@@ -6,7 +6,9 @@ import com.axioma.axiomatrainee.model.exercises.ExerciseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class RandomExerciseService {
@@ -21,17 +23,18 @@ public class RandomExerciseService {
     }
 
     public Exercise findRandomByUserId(Long userId, ExerciseType type) {
-        List<Exercise> all = exerciseService.findAllByType(type);
+        Set<Exercise> all = exerciseService.findAllByType(type);
         List<DoneExercise> doneByUser = doneExerciseService.findAllByUserId(userId);
         return removeDoneExercises(all, doneByUser).stream().findFirst()
                 .orElseThrow(() -> new RuntimeException("You have done everything!"));
     }
     
-    private List<Exercise> removeDoneExercises(List<Exercise> exercises, List<DoneExercise> done) {
-        for (int i = 0; i < exercises.size(); i++) {
-            for (int j = 0; j < done.size(); j++) {
-                if(exercises.get(i).getId().equals(done.get(j).getDoneExerciseId().getExerciseId())) {
-                    exercises.remove(i);
+    private Set<Exercise> removeDoneExercises(Set<Exercise> exercises, List<DoneExercise> done) {
+        Iterator<Exercise> iterator = exercises.iterator();
+        for (int i = 0; i < done.size(); i++) {
+            while (iterator.hasNext()) {
+                if(done.get(i).getDoneExerciseId().getExerciseId().equals(iterator.next().getId())) {
+                    iterator.remove();
                 }
             }
         }

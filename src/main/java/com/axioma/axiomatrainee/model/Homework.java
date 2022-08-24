@@ -22,9 +22,18 @@ public class Homework {
     @Column(name = "id")
     Long id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-            @JoinTable(name ="homeworks_exercises",
+    @Column(name = "description")
+    String description;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name ="homeworks_exercises",
             joinColumns = @JoinColumn(name = "homework_id"),
             inverseJoinColumns = @JoinColumn(name = "exercise_id"))
     Set<Exercise> exercises;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "groups_homeworks",
+            joinColumns = @JoinColumn(name = "homework_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    Set<Group> groups;
 }
